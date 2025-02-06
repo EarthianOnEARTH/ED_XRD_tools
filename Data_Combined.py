@@ -93,7 +93,7 @@ DATA_combined = np.asarray(DATA_combined)
 file=0
 for ii in range(filenumber):
     if DATA2[:,:,ii].max()>0:
-        # DATA [:,:,file] += DATA2[:,:,ii]   #Raw intensities
+        DATA [:,:,file] += DATA2[:,:,ii]   #Raw intensities
         DATA [:,:,file] += DATA2[:,:,ii]/DATA2[:,:,ii].max()  #Normalized Intensity
         file+=1
     else:
