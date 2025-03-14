@@ -93,8 +93,8 @@ DATA_combined = np.asarray(DATA_combined)
 file=0
 for ii in range(filenumber):
     if DATA2[:,:,ii].max()>0:
-        DATA [:,:,file] += DATA2[:,:,ii]   #Raw intensities
-        DATA [:,:,file] += DATA2[:,:,ii]/DATA2[:,:,ii].max()  #Normalized Intensity
+        DATA [:,:,file] = DATA2[:,:,ii]   #Raw intensities
+        DATA [:,:,file] = DATA2[:,:,ii]/DATA2[:,:,ii].max()  #Normalized Intensity
         file+=1
     else:
         ii+=1
@@ -115,28 +115,12 @@ for ii in range(real_filenumber):
     plot(xd, DATA_combined[:,ii]+ii*offset,color = colors[ii])
     xlabel('d-spacing (Angstrom)') 
     index = 'd-spacing'
-
-    """Plot as a function of E"""
-    # plot(xE, DATA_combined[:,ii]+ii*offset,'k')
-    # xlabel('Energy (keV)') 
-    #index = 'Energy (keV)'
-
-
-
-    """Plot as a function of Q"""
-    #plot(xQ, DATA_combined[:,ii]+ii*offset,'k')
-    #xlabel('Q (Angstrom -1)') 
-    #index = 'Q (Angstrom -1)'
-
-    
+    DATA_combined = np.asarray(DATA_combined)
+    np.savetxt(filepath + str(filename)+'_datas.txt', DATA_combined, delimiter=' ')
+    np.savetxt(filepath + str(filename)+'d_spacing.txt', xd, delimiter=' ')    
     ylabel('Intensity (a.u.)')
     
-DATA_combined = np.asarray(DATA_combined)
 
-np.savetxt(filepath + str(filename)+'_datas.txt', DATA_combined, delimiter=' ')
-np.savetxt(filepath + str(filename)+'d_spacing.txt', xd, delimiter=' ')
-np.savetxt(filepath + str(filename)+'energy.txt', xd, delimiter=' ')
-np.savetxt(filepath + str(filename)+'Q.txt', xQ, delimiter=' ')
 
 def writeList(filename, filelist):
     np.savetxt(filename, filelist, delimiter=" ", fmt = '%s')
@@ -170,7 +154,7 @@ except FileExistsError:
 
 for ii in range(real_filenumber):
     figure(ii+3, figsize = [6.4, 1.9])
-    imshow(DATA[:,:,ii],cmap='hot', vmin = 0, vmax = DATA.max(), extent = [15,90, 0, 6])
+    imshow(DATA[:,:,ii],cmap='hot', vmin = 0, vmax = DATA.max(), extent = [1,3, 0, 6])
     # xlabel('d-spacing (Angstrom)')
     xlabel('Energy (keV)')
     ylabel('Channel')
